@@ -1,12 +1,18 @@
 # -*- coding: utf-8 -*-
+"""
+PyThaiNLP Demo Online
+V 0.1
+พัฒนาโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
+"""
 import logging
-import platform
-
 from flask import Flask
-
-
+from pythainlp.tokenize import word_tokenize
+from pythainlp.tokenize import tcc
+from pythainlp.word_vector import thai2vec
+from pythainlp.tag import pos_tag
+from pythainlp.sentiment import sentiment
+from pythainlp.soundex import LK82,Udom83
 app = Flask(__name__)
-
 
 @app.route('/')
 def home():
