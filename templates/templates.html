@@ -8,7 +8,8 @@
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
-  <style>body {padding-top: 3.5rem;}@media print {#ghostery-purple-box {display:none !important}}</style><style id="extension_colorize" type="text/css">html *,* { filter: initial !important; }</style></head>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"><style id="extension_colorize" type="text/css">html *,* { filter: initial !important; }</style>
+  </head>
 
   <body>
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
@@ -51,20 +52,15 @@
     </nav>
 
     <main role="main">
-
-    {{ page }}
-
+	{% block body %}{% endblock %}
     </main>
 
     <footer class="container">
       <p>© 2016 - 2018 PyThaiNLP</p>
     </footer>
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"><\/script>')</script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.js"></script>
+	{% block runjs %}{% endblock %}
 </body></html>
