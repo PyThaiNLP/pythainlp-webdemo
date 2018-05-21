@@ -20,17 +20,33 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
+		{% if name=="Home" %}
           <li class="nav-item active">
+		 {% else %}
+		 <li class="nav-item">
+		 {% endif %}
             <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="download.html">Word tokenizer</a>
+		  {% if name=="Word tokenizer" %}
+          <li class="nav-item active">
+		 {% else %}
+		 <li class="nav-item">
+		 {% endif %}
+            <a class="nav-link" href="/word_tokenizer">Word tokenizer</a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="add.html">POS Tag</a>
+          {% if name=="POS Tag" %}
+          <li class="nav-item active">
+		 {% else %}
+		 <li class="nav-item">
+		 {% endif %}
+            <a class="nav-link" href="/pos_tag">POS Tag</a>
           </li>
-		  <li class="nav-item">
-            <a class="nav-link" href="add.html">Thai2Vec</a>
+		  {% if name=="Thai2Vec" %}
+          <li class="nav-item active">
+		 {% else %}
+		 <li class="nav-item">
+		 {% endif %}
+            <a class="nav-link" href="/thai2vec">Thai2Vec</a>
           </li>
 		<li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="http://example.com/" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tool</a>

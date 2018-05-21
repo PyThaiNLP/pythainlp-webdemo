@@ -17,16 +17,30 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "Hi"
+    return render_template('index.html', name='Home')
 
 @app.route('/word_tokenizer')
 def word_tokenizer_web():
     return render_template('word_tokenizer.html', name='Word tokenizer')
 
+@app.route('/pos_tag')
+def pos_tag_web():
+    return render_template('pos_tag.html', name='POS Tag')
+
+@app.route('/thai2vec')
+def thai2vec_web():
+    return render_template('thai2vec.html', name='Thai2Vec')
+
 @app.route('/api/word_tokenizer', methods=["GET"])
 def word_tokenizer_api():
 	sent = request.args.get('sent', 0, type=str)
-	txt='|'.join(word_tokenize(sent)).replace('|<|br|>|','<br>')
+	txt='|'.join(word_tokenize(sent)).replace('|<|br|>','<br>')
+	return jsonify(result=txt)
+
+@app.route('/api/pos_tag', methods=["GET"])
+def pos_tag_api():
+	sent = request.args.get('sent', 0, type=str)
+	txt=" ".join("%s/%s" % tup for tup in pos_tag(word_tokenize(sent),engine='artagger'))
 	return jsonify(result=txt)
 
 

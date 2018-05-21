@@ -1,7 +1,7 @@
 {% extends "templates.html" %}
 {% block body %}
  <div class="container">
-	<h1>Word tokenizer</h1>
+	<h1>POS Tag</h1>
   <div class="row">
     <div class="col-sm-6">
 	  <div class="form-group">
@@ -22,7 +22,7 @@
 	<script>
 	$("#send_word").click(function() {
       var txt =$('#sent_text').val().replace('\n','<br>');
-	  $.getJSON('/api/word_tokenizer', {
+	  $.getJSON('/api/pos_tag', {
 				  sent: txt,
 				}, function(data) {
 				$("#show_word").html(data.result);
