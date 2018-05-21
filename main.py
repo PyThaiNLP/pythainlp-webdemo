@@ -45,9 +45,13 @@ def about_web():
 
 @app.route('/api/word_tokenizer', methods=["GET"])
 def word_tokenizer_api():
-	sent = request.args.get('sent', 0, type=str)
-	engine = request.args.get('engine', 0, type=str)
-	txt='|'.join(word_tokenize(sent,engine)).replace('|<|br|>|','<br>').replace('<|br|>','<br>')
+	txt=""
+	try:
+		sent = request.args.get('sent', 0, type=str)
+		engine = request.args.get('engine', 0, type=str)
+		txt='|'.join(word_tokenize(sent,engine)).replace('|<|br|>|','<br>').replace('<|br|>','<br>')
+	except:
+		txt="Error"
 	return jsonify(result=txt)
 
 @app.route('/api/tcc', methods=["GET"])
@@ -81,6 +85,10 @@ def server_error(e):
     An internal error occurred: <pre>{}</pre>
     See logs for full stacktrace.
     """.format(e), 500
+
+@app.errorhandler(404)
+def not_found(e):
+	return "404 NOT FOUND"
 
 
 if __name__ == '__main__':
