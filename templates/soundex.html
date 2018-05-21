@@ -21,7 +21,7 @@
 {% block runjs %}
 	<script>
 	$("#send_word").click(function() {
-      var txt =$('#sent_text').val().replace('\n','<br>');
+      var txt =$('#sent_text').val().replace(/\n/g,'<br>');
 	  $.getJSON('/api/soundex', {
 				  sent: txt,
 				}, function(data) {

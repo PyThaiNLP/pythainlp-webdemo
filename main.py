@@ -46,7 +46,7 @@ def about_web():
 @app.route('/api/word_tokenizer', methods=["GET"])
 def word_tokenizer_api():
 	sent = request.args.get('sent', 0, type=str)
-	txt='|'.join(word_tokenize(sent)).replace('|<|br|>','<br>')
+	txt='|'.join(word_tokenize(sent)).replace('|<|br|>|','<br>')
 	return jsonify(result=txt)
 
 @app.route('/api/tcc', methods=["GET"])
@@ -60,7 +60,9 @@ def tcc_api():
 @app.route('/api/pos_tag', methods=["GET"])
 def pos_tag_api():
 	sent = request.args.get('sent', 0, type=str)
-	txt=" ".join("%s/%s" % tup for tup in pos_tag(word_tokenize(sent),engine='artagger'))
+	txt=""
+	for i in sent.split('<br>'):
+		txt+=" ".join("%s/%s" % tup for tup in pos_tag(word_tokenize(i),engine='artagger'))+"<br>"
 	return jsonify(result=txt)
 
 @app.route('/api/soundex', methods=["GET"])
