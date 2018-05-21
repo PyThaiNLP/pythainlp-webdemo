@@ -46,7 +46,8 @@ def about_web():
 @app.route('/api/word_tokenizer', methods=["GET"])
 def word_tokenizer_api():
 	sent = request.args.get('sent', 0, type=str)
-	txt='|'.join(word_tokenize(sent)).replace('|<|br|>|','<br>')
+	engine = request.args.get('engine', 0, type=str)
+	txt='|'.join(word_tokenize(sent,engine)).replace('|<|br|>|','<br>')
 	return jsonify(result=txt)
 
 @app.route('/api/tcc', methods=["GET"])
