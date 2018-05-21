@@ -3,10 +3,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <title>{{ name }} : PyThaiNLP Demo</title>
-
-    <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"><style id="extension_colorize" type="text/css">html *,* { filter: initial !important; }</style>
   </head>
@@ -20,47 +17,27 @@
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
         <ul class="navbar-nav mr-auto">
-		{% if name=="Home" %}
-          <li class="nav-item active">
-		 {% else %}
-		 <li class="nav-item">
-		 {% endif %}
+		{% if name=="Home" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
             <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
           </li>
-		  {% if name=="Word tokenizer" %}
-          <li class="nav-item active">
-		 {% else %}
-		 <li class="nav-item">
-		 {% endif %}
+		  {% if name=="Word tokenizer" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
             <a class="nav-link" href="/word_tokenizer">Word Tokenizer</a>
           </li>
-          {% if name=="POS Tag" %}
-          <li class="nav-item active">
-		 {% else %}
-		 <li class="nav-item">
-		 {% endif %}
+          {% if name=="POS Tag" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
             <a class="nav-link" href="/pos_tag">POS Tag</a>
           </li>
 		<li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="http://example.com/" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tool</a>
+            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tool</a>
             <div class="dropdown-menu" aria-labelledby="dropdown01">
               <a class="dropdown-item" href="/tcc">TCC</a>
               <a class="dropdown-item" href="/soundex">Soundex</a>
               <!--<a class="dropdown-item" href="#">Sentiment Analysis</a>-->
             </div>
           </li>
-		  {% if name=="About" %}
-          <li class="nav-item active">
-		 {% else %}
-		 <li class="nav-item">
-		 {% endif %}
+		  {% if name=="About" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
             <a class="nav-link" href="/about">About PyThaiNLP</a>
           </li>
         </ul>
-         <!--<form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" placeholder="Search" aria-label="Search" type="text">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>-->
       </div>
     </nav>
 
