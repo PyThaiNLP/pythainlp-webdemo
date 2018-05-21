@@ -31,10 +31,30 @@ def pos_tag_web():
 def thai2vec_web():
     return render_template('thai2vec.html', name='Thai2Vec')
 
+@app.route('/soundex')
+def soundex_web():
+    return render_template('soundex.html', name='Soundex')
+
+@app.route('/tcc')
+def tcc_web():
+    return render_template('tcc.html', name='TCC')
+
+@app.route('/about')
+def about_web():
+    return render_template('about.html', name='About')
+
 @app.route('/api/word_tokenizer', methods=["GET"])
 def word_tokenizer_api():
 	sent = request.args.get('sent', 0, type=str)
 	txt='|'.join(word_tokenize(sent)).replace('|<|br|>','<br>')
+	return jsonify(result=txt)
+
+@app.route('/api/tcc', methods=["GET"])
+def tcc_api():
+	sent = request.args.get('sent', 0, type=str)
+	txt=""
+	for i in sent.split('<br>'):
+		txt+=tcc.tcc(i)+"<br>"
 	return jsonify(result=txt)
 
 @app.route('/api/pos_tag', methods=["GET"])
@@ -43,6 +63,13 @@ def pos_tag_api():
 	txt=" ".join("%s/%s" % tup for tup in pos_tag(word_tokenize(sent),engine='artagger'))
 	return jsonify(result=txt)
 
+@app.route('/api/soundex', methods=["GET"])
+def soundex_api():
+	sent = request.args.get('sent', 0, type=str)
+	txt=""
+	for i in sent.split('<br>'):
+		txt+="<b>Word : </b>"+i+"<br><p>กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์ - LK82 : "+LK82(i)+"<br>กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์ - Udom83 : "+Udom83(i)+"</p><br>"
+	return jsonify(result=txt)
 
 @app.errorhandler(500)
 def server_error(e):

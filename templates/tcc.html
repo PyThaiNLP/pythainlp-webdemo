@@ -1,0 +1,31 @@
+{% extends "templates.html" %}
+{% block body %}
+ <div class="container">
+	<h1>Thai Character Clusters - TCC</h1>
+  <div class="row">
+    <div class="col-sm-6">
+	  <div class="form-group">
+    <label for="exampleFormControlTextarea1">Input Thai sentence</label>
+    <textarea class="form-control" id="sent_text" rows="9"></textarea><br>
+	<button type="button" class="btn btn-primary" id="send_word">Send</button>
+  </div>
+    </div>
+    <div class="col-sm-6 other">
+	  <div class="panel panel-primary">
+		<div class="card bg-light text-dark"><div class="card-body" id="show_word"></div>
+		</div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block runjs %}
+	<script>
+	$("#send_word").click(function() {
+      var txt =$('#sent_text').val().replace('\n','<br>');
+	  $.getJSON('/api/tcc', {
+				  sent: txt,
+				}, function(data) {
+				$("#show_word").html(data.result);
+				});
+    });</script>
+{% endblock %}
