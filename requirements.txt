@@ -1,3 +1,4 @@
 pythainlp
 gunicorn
 deepcut
+flask
