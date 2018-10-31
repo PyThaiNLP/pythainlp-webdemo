@@ -27,6 +27,10 @@ def word_tokenizer_web():
 def pos_tag_web():
     return render_template('pos_tag.html', name='POS Tag')
 
+@app.route('/ner')
+def ner_web():
+    return render_template('ner.html', name='NER')
+
 @app.route('/thai2vec')
 def thai2vec_web():
     return render_template('thai2vec.html', name='Thai2Vec')
