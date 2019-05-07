@@ -8,10 +8,8 @@ import logging
 from flask import Flask, render_template, abort, request,jsonify
 from pythainlp.tokenize import word_tokenize
 from pythainlp.tokenize import tcc
-#from pythainlp.word_vector import thai2vec
 from pythainlp.tag import pos_tag
-from pythainlp.sentiment import sentiment
-from pythainlp.soundex import LK82,Udom83
+from pythainlp.soundex import lk82, udom83
 import json
 app = Flask(__name__)
 
@@ -96,4 +94,4 @@ def not_found(e):
 
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8080, debug=True)
+    app.run(host='0.0.0.0', port=80, debug=True)
