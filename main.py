@@ -5,12 +5,20 @@ V 0.1
 พัฒนาโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
 """
 import logging
+import json
+import os
+
 from flask import Flask, render_template, abort, request,jsonify
+from datetime import datetime
+
+import pythainlp
 from pythainlp.tokenize import word_tokenize
 from pythainlp.tokenize import tcc
 from pythainlp.tag import pos_tag
 from pythainlp.soundex import lk82, udom83
-import json
+
+port = os.environ['PORT'] if os.environ['PORT'] else 80
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -41,20 +49,15 @@ def soundex_web():
 def tcc_web():
     return render_template('tcc.html', name='TCC')
 
-@app.route('/about')
-def about_web():
-    return render_template('about.html', name='About')
-
 @app.route('/api/word_tokenizer', methods=["GET"])
 def word_tokenizer_api():
-	txt=""
-	try:
-		sent = request.args.get('sent', 0, type=str)
-		engine = request.args.get('engine', 0, type=str)
-		txt='|'.join(word_tokenize(sent,engine)).replace('|<|br|>|','<br>').replace('<|br|>','<br>')
-	except:
-		txt="Error"
-	return jsonify(result=txt)
+
+	sent = request.args.get('sent', 0, type=str)
+	engine = request.args.get('engine', 0, type=str)
+
+	tokenised = word_tokenize(sent, engine=engine)
+	
+	return jsonify(result='|'.join(tokenised))
 
 @app.route('/api/tcc', methods=["GET"])
 def tcc_api():
@@ -82,16 +85,23 @@ def soundex_api():
 
 @app.errorhandler(500)
 def server_error(e):
-    logging.exception('An error occurred during a request.')
-    return """
-    An internal error occurred: <pre>{}</pre>
-    See logs for full stacktrace.
-    """.format(e), 500
+	logging.exception('An error occurred during a request.')
+	return """
+	An internal error occurred: <pre>{}</pre>
+	See logs for full stacktrace.
+	""".format(e), 500
 
 @app.errorhandler(404)
 def not_found(e):
 	return "404 NOT FOUND"
 
+@app.context_processor
+def inject_stuff():
+    return dict(
+		pythainlp_version=pythainlp.__version__,
+		now=datetime.now(),
+		sample_text="คนที่ฝึกภาษาอังกฤษ แม้ว่าต่างคนจะต่างความต้องการ  แต่อย่างหนึ่งที่ดูจะเหมือนกัน คือ อยากอ่านข่าวภาษาอังกฤษได้คล่องเหมือนอ่านข่าวภาษาไทย  ผมสรุปอย่างนี้เพราะมี 2 บทความในเว็บนี้ที่ท่านผู้อ่านเข้าไปอ่านมากทีเดียว"
+	)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80, debug=True)
+	app.run(host='0.0.0.0', port=port, debug=True)

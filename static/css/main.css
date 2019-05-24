@@ -1,1 +1,13 @@
-body {padding-top: 3.5rem;}@media print {#ghostery-purple-box {display:none !important}}
+body {
+    padding-top: 3.5rem;
+}
+
+@media print {
+    #ghostery-purple-box {
+        display: none !important
+    }
+}
+
+footer {
+    text-align: center;
+}

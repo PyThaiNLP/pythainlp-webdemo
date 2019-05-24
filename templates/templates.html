@@ -39,7 +39,7 @@
           </li>
           </li>
 		  {% if name=="About" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
-            <a class="nav-link" href="/about">About PyThaiNLP</a>
+            <a class="nav-link" href="//pythainlp.github.io">About PyThaiNLP</a>
           </li>
         </ul>
       </div>
@@ -50,7 +50,9 @@
     </main>
 
     <footer class="container">
-      <p>© 2016 - 2018 PyThaiNLP</p>
+      <div>© 2016 - {{ now.year }} PyThaiNLP</div>
+      <div>v{{ pythainlp_version }}</div>
+
     </footer>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"><\/script>')</script>
