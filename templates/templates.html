@@ -16,29 +16,23 @@
       </button>
 
       <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-        <ul class="navbar-nav mr-auto">
-		{% if name=="Home" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
-            <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
-          </li>
+        <ul class="navbar-nav mr-auto w-100">
 		  {% if name=="Word tokenizer" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
             <a class="nav-link" href="/word_tokenizer">Word Tokenizer</a>
           </li>
-          {% if name=="POS Tag" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
+      {% if name=="POS Tag" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
             <a class="nav-link" href="/pos_tag">POS Tag</a>
           </li>
-		<li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Tool</a>
-            <div class="dropdown-menu" aria-labelledby="dropdown01">
-              <a class="dropdown-item" href="/tcc">TCC</a>
-              <a class="dropdown-item" href="/soundex">Soundex</a>
-              <!--<a class="dropdown-item" href="#">Sentiment Analysis</a>-->
-            </div>
-          </li>
-		  {% if name=="NER" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
-            <a class="nav-link" href="/ner">Named entity recognition</a>
-          </li>
-          </li>
-		  {% if name=="About" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
+
+      {% if name=="TCC" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
+              <a class="nav-link" href="/tcc">TCC</a>
+            </li>
+
+      {% if name=="Soundex" %}<li class="nav-item active">{% else %}<li class="nav-item">{% endif %}
+              <a class="nav-link" href="/soundex">Soundex</a>
+            </li>
+
+		  {% if name=="About" %}<li class="nav-item active float-right">{% else %}<li class="nav-item">{% endif %}
             <a class="nav-link" href="//pythainlp.github.io">About PyThaiNLP</a>
           </li>
         </ul>
@@ -51,6 +45,7 @@
 
     <footer class="container">
       <div>© 2016 - {{ now.year }} PyThaiNLP</div>
+
       <div>v{{ pythainlp_version }}</div>
 
     </footer>

@@ -8,7 +8,9 @@ import logging
 import json
 import os
 
-from flask import Flask, render_template, abort, request,jsonify
+from flask import Flask, render_template, abort, request, jsonify
+from flask import redirect, url_for
+
 from datetime import datetime
 
 import pythainlp
@@ -17,13 +19,18 @@ from pythainlp.tokenize import tcc
 from pythainlp.tag import pos_tag
 from pythainlp.soundex import lk82, udom83
 
+import yaml
+
+with open("./config.yaml", 'r') as stream:
+    app_config = yaml.safe_load(stream)
+
 port = os.environ['PORT'] if os.environ['PORT'] else 80
 
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('index.html', name='Home')
+	return redirect(url_for('word_tokenizer_web'))
 
 @app.route('/word_tokenizer')
 def word_tokenizer_web():
@@ -61,11 +68,9 @@ def word_tokenizer_api():
 
 @app.route('/api/tcc', methods=["GET"])
 def tcc_api():
-	sent = request.args.get('sent', 0, type=str)
-	txt=""
-	for i in sent.split('<br>'):
-		txt+=tcc.tcc(i)+"<br>"
-	return jsonify(result=txt)
+	txt = request.args.get('sent', 0, type=str)
+	res = "~".join(tcc.tcc(txt.strip()))
+	return jsonify(result=res)
 
 @app.route('/api/pos_tag', methods=["GET"])
 def pos_tag_api():
@@ -80,7 +85,7 @@ def soundex_api():
 	sent = request.args.get('sent', 0, type=str)
 	txt=""
 	for i in sent.split('<br>'):
-		txt+="<b>Word : </b>"+i+"<br><p>กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์ - LK82 : "+LK82(i)+"<br>กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์ - Udom83 : "+Udom83(i)+"</p><br>"
+		txt += "<b>Word : </b>"+i+"<br><p>กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์ - LK82 : "+ lk82(i) +"<br>กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์ - Udom83 : "+ udom83(i)+"</p><br>"
 	return jsonify(result=txt)
 
 @app.errorhandler(500)
@@ -100,7 +105,7 @@ def inject_stuff():
     return dict(
 		pythainlp_version=pythainlp.__version__,
 		now=datetime.now(),
-		sample_text="คนที่ฝึกภาษาอังกฤษ แม้ว่าต่างคนจะต่างความต้องการ  แต่อย่างหนึ่งที่ดูจะเหมือนกัน คือ อยากอ่านข่าวภาษาอังกฤษได้คล่องเหมือนอ่านข่าวภาษาไทย  ผมสรุปอย่างนี้เพราะมี 2 บทความในเว็บนี้ที่ท่านผู้อ่านเข้าไปอ่านมากทีเดียว"
+		app_config=app_config
 	)
 
 if __name__ == '__main__':
