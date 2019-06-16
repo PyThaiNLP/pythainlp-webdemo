@@ -15,7 +15,7 @@ from datetime import datetime
 
 import pythainlp
 from pythainlp.tokenize import word_tokenize
-from pythainlp.tokenize import tcc
+from pythainlp.tokenize import tcc, syllable_tokenize
 from pythainlp.tag import pos_tag
 from pythainlp.soundex import lk82, udom83
 
@@ -24,7 +24,7 @@ import yaml
 with open("./config.yaml", 'r') as stream:
     app_config = yaml.safe_load(stream)
 
-port = os.environ['PORT'] if os.environ['PORT'] else 80
+port = os.environ.get("PORT", 80)
 
 app = Flask(__name__)
 
@@ -56,6 +56,10 @@ def soundex_web():
 def tcc_web():
     return render_template('tcc.html', name='TCC')
 
+@app.route('/syllable')
+def syllable_web():
+    return render_template('syllable.html', name='Syllable')
+
 @app.route('/api/word_tokenizer', methods=["GET"])
 def word_tokenizer_api():
 
@@ -70,6 +74,12 @@ def word_tokenizer_api():
 def tcc_api():
 	txt = request.args.get('sent', 0, type=str)
 	res = "~".join(tcc.tcc(txt.strip()))
+	return jsonify(result=res)
+
+@app.route('/api/syllable', methods=["GET"])
+def syllable_api():
+	txt = request.args.get('sent', 0, type=str)
+	res = "~".join(syllable_tokenize(txt.strip()))
 	return jsonify(result=res)
 
 @app.route('/api/pos_tag', methods=["GET"])
