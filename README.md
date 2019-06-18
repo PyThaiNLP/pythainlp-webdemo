@@ -11,7 +11,7 @@
 ```
 # The command below starts the web that can be accessed
 # via http://127.0.0.1:8080
-> docker run -i -p 8080:80 pythainlp-demo
+> docker run -i -p 8080:80 pythainlp/demo
  * Serving Flask app "main" (lazy loading)
 ```
 
@@ -26,7 +26,7 @@
 
 ### Build Docker image
 ```
- docker build -t pythainlp-demo .
+ docker build -t pythainlp/demo .
 ```
 
 ## Contributions
