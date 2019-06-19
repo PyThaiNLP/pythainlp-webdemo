@@ -1,4 +1,5 @@
 # PyThaiNLP Web Demo
+![](https://img.shields.io/docker/pulls/pythainlp/demo.svg)
 <div align="center">
     <img src="https://i.imgur.com/C6FhLfD.png"/>
     <p>
