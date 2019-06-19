@@ -17,6 +17,7 @@ import pythainlp
 from pythainlp.tokenize import word_tokenize
 from pythainlp.tokenize import tcc, syllable_tokenize
 from pythainlp.tag import pos_tag
+from pythainlp.tag.named_entity import ThaiNameTagger
 from pythainlp.soundex import lk82, udom83
 
 import yaml
@@ -80,6 +81,15 @@ def tcc_api():
 def syllable_api():
 	txt = request.args.get('sent', 0, type=str)
 	res = "~".join(syllable_tokenize(txt.strip()))
+	return jsonify(result=res)
+
+@app.route('/api/ner', methods=["GET"])
+def ner_api():
+	ner = ThaiNameTagger()
+	txt = request.args.get('sent', 0, type=str)
+	print(txt)
+	res = ner.get_ner(txt, pos=False)
+
 	return jsonify(result=res)
 
 @app.route('/api/pos_tag', methods=["GET"])

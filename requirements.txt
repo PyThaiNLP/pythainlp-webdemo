@@ -12,10 +12,13 @@ marisa-trie==0.7.5
 MarkupSafe==1.1.1
 nltk==3.4.1
 pythainlp==2.0.5
+python-crfsuite==0.9.6
 pytz==2019.1
 PyYAML==5.1
 requests==2.22.0
 six==1.12.0
+sklearn-crfsuite==0.3.6
+tabulate==0.8.3
 tinydb==3.13.0
 tqdm==4.32.1
 urllib3==1.25.3
