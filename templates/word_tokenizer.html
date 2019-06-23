@@ -5,16 +5,16 @@
   <div class="row">
     <div class="col-sm-6">
 	  <div class="form-group">
+    <label for="sel1">Select engine:</label>
+    <select class="form-control" id="engine1">
+      <option value="newmm">newmm</option>
+      <option value="longest">longest</option>
+    </select>
     <label for="exampleFormControlTextarea1">Input Thai sentence</label>
-    <textarea class="form-control" id="sent_text" rows="9"></textarea><br>
-	<label for="sel1">Select engine:</label>
-  <select class="form-control" id="engine1">
-    <option>newmm</option>
-    <option>mm</option>
-    <option>icu</option>
-    <option>longest-matching</option>
-  </select>
-	<button type="button" class="btn btn-primary" id="send_word">Send</button>
+    <textarea class="form-control" id="sent_text" rows="9">
+      {{ app_config.text_samples["short"] }}
+    </textarea><br>
+	  <button type="button" class="btn btn-primary" id="send_word">Send</button>
   </div>
     </div>
     <div class="col-sm-6 other">
@@ -27,12 +27,13 @@
 {% endblock %}
 {% block runjs %}
 	<script>
-	$("#send_word").click(function() {
-      var txt =$('#sent_text').val().replace(/\n/g,'<br>');
-	  $.getJSON('/api/word_tokenizer', {
-				  sent: txt,engine:$('#engine1').val()
-				}, function(data) {
-				$("#show_word").html(data.result);
-				});
-    });</script>
+    $("#send_word").click(function() {
+        $.getJSON('/api/word_tokenizer', {
+          sent: $('#sent_text').val(),
+          engine:$('#engine1').val()
+        }, function(data) {
+          $("#show_word").html(data.result);
+        });
+    });
+  </script>
 {% endblock %}

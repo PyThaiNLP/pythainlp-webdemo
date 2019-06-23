@@ -6,7 +6,9 @@
     <div class="col-sm-6">
 	  <div class="form-group">
     <label for="exampleFormControlTextarea1">Input Thai sentence</label>
-    <textarea class="form-control" id="sent_text" rows="9"></textarea><br>
+    <textarea class="form-control" id="sent_text" rows="9">
+      {{ app_config.text_samples["short"] }}
+		</textarea><br>
 	<button type="button" class="btn btn-primary" id="send_word">Send</button>
   </div>
     </div>
@@ -20,12 +22,12 @@
 {% endblock %}
 {% block runjs %}
 	<script>
-	$("#send_word").click(function() {
-      var txt =$('#sent_text').val().replace(/\n/g,'<br>');
-	  $.getJSON('/api/pos_tag', {
-				  sent: txt,
+		$("#send_word").click(function() {
+			$.getJSON('/api/pos_tag', {
+					sent: $('#sent_text').val()
 				}, function(data) {
-				$("#show_word").html(data.result);
+					$("#show_word").html(data.result);
 				});
-    });</script>
+			});
+	</script>
 {% endblock %}

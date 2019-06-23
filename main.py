@@ -5,19 +5,33 @@ V 0.1
 พัฒนาโดย นาย วรรณพงษ์  ภัททิยไพบูลย์
 """
 import logging
-from flask import Flask, render_template, abort, request,jsonify
-from pythainlp.tokenize import word_tokenize
-from pythainlp.tokenize import tcc
-#from pythainlp.word_vector import thai2vec
-from pythainlp.tag import pos_tag
-from pythainlp.sentiment import sentiment
-from pythainlp.soundex import LK82,Udom83
 import json
+import os
+
+from flask import Flask, render_template, abort, request, jsonify
+from flask import redirect, url_for
+
+from datetime import datetime
+
+import pythainlp
+from pythainlp.tokenize import word_tokenize
+from pythainlp.tokenize import tcc, syllable_tokenize
+from pythainlp.tag import pos_tag
+from pythainlp.tag.named_entity import ThaiNameTagger
+from pythainlp.soundex import lk82, udom83
+
+import yaml
+
+with open("./config.yaml", 'r') as stream:
+    app_config = yaml.safe_load(stream)
+
+port = os.environ.get("PORT", 80)
+
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return render_template('index.html', name='Home')
+	return redirect(url_for('word_tokenizer_web'))
 
 @app.route('/word_tokenizer')
 def word_tokenizer_web():
@@ -43,28 +57,40 @@ def soundex_web():
 def tcc_web():
     return render_template('tcc.html', name='TCC')
 
-@app.route('/about')
-def about_web():
-    return render_template('about.html', name='About')
+@app.route('/syllable')
+def syllable_web():
+    return render_template('syllable.html', name='Syllable')
 
 @app.route('/api/word_tokenizer', methods=["GET"])
 def word_tokenizer_api():
-	txt=""
-	try:
-		sent = request.args.get('sent', 0, type=str)
-		engine = request.args.get('engine', 0, type=str)
-		txt='|'.join(word_tokenize(sent,engine)).replace('|<|br|>|','<br>').replace('<|br|>','<br>')
-	except:
-		txt="Error"
-	return jsonify(result=txt)
+
+	sent = request.args.get('sent', 0, type=str)
+	engine = request.args.get('engine', 0, type=str)
+
+	tokenised = word_tokenize(sent, engine=engine)
+	
+	return jsonify(result='|'.join(tokenised))
 
 @app.route('/api/tcc', methods=["GET"])
 def tcc_api():
-	sent = request.args.get('sent', 0, type=str)
-	txt=""
-	for i in sent.split('<br>'):
-		txt+=tcc.tcc(i)+"<br>"
-	return jsonify(result=txt)
+	txt = request.args.get('sent', 0, type=str)
+	res = "~".join(tcc.tcc(txt.strip()))
+	return jsonify(result=res)
+
+@app.route('/api/syllable', methods=["GET"])
+def syllable_api():
+	txt = request.args.get('sent', 0, type=str)
+	res = "~".join(syllable_tokenize(txt.strip()))
+	return jsonify(result=res)
+
+@app.route('/api/ner', methods=["GET"])
+def ner_api():
+	ner = ThaiNameTagger()
+	txt = request.args.get('sent', 0, type=str)
+	print(txt)
+	res = ner.get_ner(txt, pos=False)
+
+	return jsonify(result=res)
 
 @app.route('/api/pos_tag', methods=["GET"])
 def pos_tag_api():
@@ -79,21 +105,28 @@ def soundex_api():
 	sent = request.args.get('sent', 0, type=str)
 	txt=""
 	for i in sent.split('<br>'):
-		txt+="<b>Word : </b>"+i+"<br><p>กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์ - LK82 : "+LK82(i)+"<br>กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์ - Udom83 : "+Udom83(i)+"</p><br>"
+		txt += "<b>Word : </b>"+i+"<br><p>กฎการเข้ารหัสซาวน์เด็กซ์ของ วิชิตหล่อจีระชุณห์กุล และ เจริญ คุวินทร์พันธุ์ - LK82 : "+ lk82(i) +"<br>กฎการเข้ารหัสซาวน์เด็กซ์ของ วรรณี อุดมพาณิชย์ - Udom83 : "+ udom83(i)+"</p><br>"
 	return jsonify(result=txt)
 
 @app.errorhandler(500)
 def server_error(e):
-    logging.exception('An error occurred during a request.')
-    return """
-    An internal error occurred: <pre>{}</pre>
-    See logs for full stacktrace.
-    """.format(e), 500
+	logging.exception('An error occurred during a request.')
+	return """
+	An internal error occurred: <pre>{}</pre>
+	See logs for full stacktrace.
+	""".format(e), 500
 
 @app.errorhandler(404)
 def not_found(e):
 	return "404 NOT FOUND"
 
+@app.context_processor
+def inject_stuff():
+    return dict(
+		pythainlp_version=pythainlp.__version__,
+		now=datetime.now(),
+		app_config=app_config
+	)
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=8080, debug=True)
+	app.run(host='0.0.0.0', port=port, debug=True)

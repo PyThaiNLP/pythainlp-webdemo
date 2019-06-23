@@ -6,7 +6,8 @@
     <div class="col-sm-6">
 	  <div class="form-group">
     <label for="exampleFormControlTextarea1">Input Thai word</label>
-    <textarea class="form-control" id="sent_text" rows="9"></textarea><br>
+    <textarea class="form-control" id="sent_text" rows="9">{{ app_config.text_samples["soundex"] }}</textarea>
+    <br>
 	<button type="button" class="btn btn-primary" id="send_word">Send</button>
   </div>
     </div>

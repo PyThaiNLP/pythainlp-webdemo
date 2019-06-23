@@ -1,13 +1,14 @@
 {% extends "templates.html" %}
 {% block body %}
  <div class="container">
-	<h1>Name Entity Recognition</h1>
+	<h1>Syllable</h1>
   <div class="row">
     <div class="col-sm-6">
 	  <div class="form-group">
     <label for="exampleFormControlTextarea1">Input Thai sentence</label>
-    <textarea class="form-control" id="sent_text" rows="9">{{ app_config.text_samples["news"] }}</textarea>
-    <br>
+    <textarea class="form-control" id="sent_text" rows="9">
+      {{ app_config.text_samples["short"] }}
+    </textarea><br>
 	<button type="button" class="btn btn-primary" id="send_word">Send</button>
   </div>
     </div>
@@ -22,19 +23,11 @@
 {% block runjs %}
 	<script>
 		$("#send_word").click(function() {
-		var txt =$('#sent_text').val().replace(/\n/g,'<br>');
-		$.getJSON('/api/ner', { sent: txt }, function(data) {
-				let txt = data.result.map( t => {
-					if(t[1] == "O") {
-						return t[0]
-					} else {
-						return "[" + t[0] + "::" + t[1] + "]"
-					}
-				}).join("");
-				console.log(txt);
-
-				$("#show_word").html(txt);
-			});
-    	});
+				$.getJSON('/api/syllable', {
+					sent: $('#sent_text').val(),
+				}, function(data) {
+					$("#show_word").html(data.result);
+				});
+		});
 	</script>
 {% endblock %}
