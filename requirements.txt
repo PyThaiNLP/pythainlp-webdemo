@@ -10,7 +10,7 @@ itsdangerous==1.1.0
 Jinja2==2.10.1
 marisa-trie==0.7.5
 MarkupSafe==1.1.1
-nltk==3.4.1
+nltk==3.4.5
 pythainlp==2.0.5
 python-crfsuite==0.9.6
 pytz==2019.1
