@@ -88,7 +88,7 @@ def ner_api():
 	ner = ThaiNameTagger()
 	txt = request.args.get('sent', 0, type=str)
 	print(txt)
-	res = ner.get_ner(txt, pos=False)
+	res = ner.get_ner(txt, pos=False,tag=True)
 
 	return jsonify(result=res)
 
@@ -97,7 +97,7 @@ def pos_tag_api():
 	sent = request.args.get('sent', 0, type=str)
 	txt=""
 	for i in sent.split('<br>'):
-		txt+=" ".join("%s/%s" % tup for tup in pos_tag(word_tokenize(i),engine='artagger'))+"<br>"
+		txt+=" ".join("%s/%s" % tup for tup in pos_tag(word_tokenize(i)))+"<br>"
 	return jsonify(result=txt)
 
 @app.route('/api/soundex', methods=["GET"])

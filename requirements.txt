@@ -1,8 +1,6 @@
-artagger==0.1.0.3
 certifi==2019.3.9
 chardet==3.0.4
 Click==7.0
-dill==0.2.9
 Flask==1.0.3
 gunicorn==19.9.0
 idna==2.8
@@ -11,13 +9,12 @@ Jinja2==2.10.1
 marisa-trie==0.7.5
 MarkupSafe==1.1.1
 nltk==3.4.5
-pythainlp==2.1.4
+pythainlp==2.2.3
 python-crfsuite==0.9.6
 pytz==2019.1
 PyYAML==5.1
 requests==2.22.0
 six==1.12.0
-sklearn-crfsuite==0.3.6
 tabulate==0.8.3
 tinydb==3.13.0
 tqdm==4.32.1
