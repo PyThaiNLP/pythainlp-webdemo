@@ -9,7 +9,7 @@ Jinja2==2.11.3
 marisa-trie==0.7.5
 MarkupSafe==1.1.1
 nltk==3.4.5
-pythainlp==2.2.3
+pythainlp==2.3.1
 python-crfsuite==0.9.6
 pytz==2019.1
 PyYAML==5.4
